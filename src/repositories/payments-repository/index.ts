@@ -47,12 +47,21 @@ async function updateStatusTicket(ticketId: number) {
   });
 }
 
+async function getTicketPost(ticket: number) {
+  return prisma.ticket.findFirst({
+    where: {
+      id: ticket,
+    }
+  });
+}
+
 const paymentsRepository = {
   getEnrollment,
   getTicket,
   postPayment,
   getPayments,
-  updateStatusTicket
+  updateStatusTicket,
+  getTicketPost
 };
     
 export default paymentsRepository;

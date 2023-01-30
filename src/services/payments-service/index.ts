@@ -1,4 +1,4 @@
-import { notFoundError } from "@/errors";
+import { notFoundError, unauthorizedError } from "@/errors";
 import paymentsRepository from "@/repositories/payments-repository";
 import { Payment, Ticket, TicketType } from "@/protocols";
 
@@ -44,12 +44,27 @@ export async function updateStatusTicket(ticketId: number): Promise<void> {
   await paymentsRepository.updateStatusTicket(ticketId);
 }
 
+export async function getTicketPost(ticket: number, enrollment: number) {
+  const result = await paymentsRepository.getTicketPost(ticket);
+
+  if(!result) {
+    throw notFoundError();
+  }
+  
+  if(result.enrollmentId !== enrollment) {
+    throw unauthorizedError();
+  }
+
+  return result;
+}
+
 const paymentsService = {
   getEnrollment,
   getTicket,
   postPayment,
   getPayments,
-  updateStatusTicket
+  updateStatusTicket,
+  getTicketPost
 };
     
 export default paymentsService;
