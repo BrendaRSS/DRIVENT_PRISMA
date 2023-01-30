@@ -27,6 +27,8 @@ export async function postPayments(req: AuthenticatedRequest, res: Response) {
     const enrollment = await paymentsService.getEnrollment(Number(userId));
     const ticketsWithTypes = await ticketsService.getTicketsWithTypes(enrollment);
 
+    await paymentsService.updateStatusTicket(ticketsWithTypes.id);
+
     await paymentsService.postPayment(body, ticketsWithTypes.id, ticketsWithTypes.TicketType.price);
 
     const payment = await paymentsService.getPayments(body.ticketId);

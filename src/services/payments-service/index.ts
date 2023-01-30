@@ -40,14 +40,8 @@ export async function getPayments(ticketId: number) {
   return result;
 }
 
-export async function updateStatusTicket(ticketId: number): Promise<TicketType> {
-  const result = await updateStatusTicket(ticketId);
-
-  if(!result) {
-    throw notFoundError();
-  }
-
-  return result;
+export async function updateStatusTicket(ticketId: number): Promise<void> {
+  await paymentsRepository.updateStatusTicket(ticketId);
 }
 
 const paymentsService = {
